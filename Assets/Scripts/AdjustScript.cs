@@ -6,27 +6,34 @@ public class AdjustScript : MonoBehaviour
 {
     void OnGUI()
     {
-        if (GUI.Button(new Rect(10, 100, 100, 30), "Health Up"))
+        float buttonWidth = 100;
+        float buttonHeight = 30;
+        float screenWidth = Screen.width;
+
+        //Center the buttons horizontally
+        float position = (screenWidth - buttonWidth) / 2;
+
+        if (GUI.Button(new Rect(position, 100, buttonWidth, buttonHeight), "Health Up"))
         {
             GameManager.manager.health += 10;
         }
-        if (GUI.Button(new Rect(10, 140, 100, 30), "Health Down"))
+        if (GUI.Button(new Rect(position, 140, buttonWidth, buttonHeight), "Health Down"))
         {
             GameManager.manager.health -= 10;
         }
-        if (GUI.Button(new Rect(10, 180, 100, 30), "XP Up"))
+        if (GUI.Button(new Rect(position, 180, buttonWidth, buttonHeight), "XP Up"))
         {
             GameManager.manager.xp += 10;
         }
-        if (GUI.Button(new Rect(10, 220, 100, 30), "XP Down"))
+        if (GUI.Button(new Rect(position, 220, buttonWidth, buttonHeight), "XP Down"))
         {
             GameManager.manager.xp -= 10;
         }
-        if (GUI.Button(new Rect(10, 260, 100, 30), "Save"))
+        if (GUI.Button(new Rect(position, 260, buttonWidth, buttonHeight), "Save"))
         {
             GameManager.manager.Save();
         }
-        if (GUI.Button(new Rect(10, 300, 100, 30), "Load"))
+        if (GUI.Button(new Rect(position, 300, buttonWidth, buttonHeight), "Load"))
         {
             GameManager.manager.Load();
         }

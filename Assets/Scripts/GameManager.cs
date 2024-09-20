@@ -8,19 +8,21 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
+    //Instance for the Singleton pattern
     public static GameManager manager;
 
     public float health;
     public float xp;
 
-    // Start is called before the first frame update
     void Awake()
     {
+        //If GameManager doesnt exist set this as the manager and dont destruction on load
         if (manager == null)
         {
             DontDestroyOnLoad(gameObject);
             manager = this;
         }
+        //If GameManager already exists destroy the dupe
         else if (manager != this)
         {
             Destroy(gameObject);
@@ -35,12 +37,21 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha4)) SceneManager.LoadScene(3); // press 4
     }
 
+    //Displays health and XP at the center of the screen
     void OnGUI()
     {
-       GUI.Label(new Rect(10,10,100,30), "Health: " +  health);
-       GUI.Label(new Rect(10, 40, 100, 30), "XP: " + xp);
+        float labelWidth = 100;
+        float labelHeight = 30;
+        float screenWidth = Screen.width;
+
+        //Centers the labels horizontally
+        float position = (screenWidth - labelWidth) / 2;
+
+        GUI.Label(new Rect(position, 10, labelWidth, labelHeight), "Health: " + health);
+        GUI.Label(new Rect(position, 40, labelWidth, labelHeight), "XP: " + xp);
     }
 
+    //Save the players health and XP to a file using binary
     public void Save()
     {
         BinaryFormatter bf  = new BinaryFormatter();
@@ -50,10 +61,12 @@ public class GameManager : MonoBehaviour
         data.health = health;
         data.xp = xp;
 
+        //Serialize the playerdata and write it to the file
         bf.Serialize(file, data);
         file.Close();
     }
 
+    //Load the players health and XP from the save file
     public void Load()
     {
         if(File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
@@ -63,6 +76,7 @@ public class GameManager : MonoBehaviour
             PlayerData data = (PlayerData)bf.Deserialize(file);
             file.Close();
 
+            //Set the players health and XP to the load values
             health = data.health;
             xp = data.xp;
         }
@@ -72,6 +86,7 @@ public class GameManager : MonoBehaviour
 [Serializable]
 class PlayerData
 {
+    //Stores health and XP
     public float health;
     public float xp;
 }
